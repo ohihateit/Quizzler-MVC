@@ -16,8 +16,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     
     var quizLogic = QuizLogic()
-    var alreadyOne = false
-    var savedScore = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +37,7 @@ class ViewController: UIViewController {
     private func updateUI() {
         questionTextLabel.text = quizLogic.getCurrentQuestion()
         scoreLabel.text = "Score: \(quizLogic.getCurrentScore())"
-        let progressBarValue = quizLogic.getCurrentProgressBarValue()
-        
-        // MARK: - This is complete shit, but alert is works
-        if alreadyOne {
-            present(quizLogic.getAlert(score: savedScore), animated: true, completion: nil)
-            alreadyOne = false
-        }
-        
-        if progressBarValue == 1.0 {
-            alreadyOne = true
-            savedScore = quizLogic.getCurrentScore()
-        }
-        // MARK: -
-        
-        progressBar.progress = progressBarValue
+        progressBar.progress = quizLogic.getCurrentProgressBarValue()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.trueButton.backgroundColor = UIColor.clear
